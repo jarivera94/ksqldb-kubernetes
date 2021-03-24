@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ksqldb-server-deployment
+  labels:
+    app: ksqldb-server
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ksqldb-server
+  template:
+    metadata:
+      labels:
+        app: ksqldb-server
+    spec:
+      containers:
+      - name: ksqldb-server
+        image: confluentinc/ksqldb-server:0.15.0
+        env:
+          
+          - name: KSQL_BOOTSTRAP_SERVERS
+            value : b-1.alfa-digital-dev-clust.4dyxdv.c2.kafka.us-east-2.amazonaws.com:9096,b-2.alfa-digital-dev-clust.4dyxdv.c2.kafka.us-east-2.amazonaws.com:9096,b-3.alfa-digital-dev-clust.4dyxdv.c2.kafka.us-east-2.amazonaws.com:9096
+          - name: KSQL_LISTENERS
+            value: http://0.0.0.0:8088/
+          - name: KSQL_KSQL_SERVICE_ID
+            value: ksqldb-instance
+          - name: KSQL_KSQL_SINK_REPLICAS
+            value: "3"
+          - name: KSQL_KSQL_STREAMS_REPLICATION_FACTOR
+            value: "3"
+          - name: KSQL_KSQL_INTERNAL_TOPIC_REPLICAS 
+            value: "3"
+          - name: KSQL_SECURITY_PROTOCOL
+            value: SASL_PLAINTEXT
+          - name: KSQL_SASL_JAAS_CONFIG
+            value: "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"profiling\" password=\"en0U2mGYbZjZM62+\";"
+        ports:
+        - containerPort: 8088
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
