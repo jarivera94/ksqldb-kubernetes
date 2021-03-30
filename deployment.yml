@@ -16,13 +16,15 @@ spec:
     spec:
       containers:
       - name: ksqldb-server
-        image: confluentinc/ksqldb-server:0.15.0
+        image: confluentinc/ksqldb-server
         env:
           
           - name: KSQL_BOOTSTRAP_SERVERS
-            value : b-1.alfa-digital-dev-clust.4dyxdv.c2.kafka.us-east-2.amazonaws.com:9096,b-2.alfa-digital-dev-clust.4dyxdv.c2.kafka.us-east-2.amazonaws.com:9096,b-3.alfa-digital-dev-clust.4dyxdv.c2.kafka.us-east-2.amazonaws.com:9096
+            value : b-1.alfa-digital-dev-clust.nqm4t4.c2.kafka.us-east-2.amazonaws.com:9096,b-2.alfa-digital-dev-clust.nqm4t4.c2.kafka.us-east-2.amazonaws.com:9096
           - name: KSQL_LISTENERS
             value: http://0.0.0.0:8088/
+          - name: KSQL_KSQL_INTERNAL_TOPIC_REPLICAS
+            value: "2"
           - name: KSQL_KSQL_SERVICE_ID
             value: ksqldb-instance
           - name: KSQL_KSQL_SINK_REPLICAS
