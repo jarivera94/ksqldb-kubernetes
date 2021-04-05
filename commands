@@ -1,0 +1,25 @@
+## configure EKS cluster 
+aws eks get-token --cluster-name {{cluster}}
+aws sts get-caller-identity
+aws eks --region us-east-2 update-kubeconfig --name {{cluster}}
+
+kubectl get namespace
+
+watch kubectl get svc,pod,deploy,secrets,externalSecrets -n {{namespace}}
+
+kubectl logs -n {{namespace}} {{pod}} -c {{container_name}} -f
+kubectl delete {{kubectl}}
+
+kubectl port-forward {{container_name}} 8080:8080
+
+## monitoring resources 
+watch kubectl top nodes -n {{namespace}}
+watch kubectl top pods -n {{namespace}}
+
+## run container
+kubectl -n {{namespace}} run -it --rm curl --image=curlimages/curl:7.72.0 -- sh
+
+## get into terminal 
+kubectl -n {{namespace}}exec --stdin --tty curl -- sh
+
+kubectl get deployment {{deployment_name}} -o yaml > file.yml
